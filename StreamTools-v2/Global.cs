@@ -98,39 +98,55 @@ namespace StreamTools_v2
                 SQLiteCommand game_CMD = new SQLiteCommand(game_SQL, Global.con);
                 game_CMD.ExecuteNonQuery();
 
+                // CREATE TIMECLOCK TABLE
+                string timeClock_SQL =
+                    @"CREATE TABLE `timeClock` ( `minute` TEXT NOT NULL, `second` TEXT NOT NULL, `quarter` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`) )";
+                SQLiteCommand timeClock_CMD = new SQLiteCommand(timeClock_SQL, Global.con);
+                timeClock_CMD.ExecuteNonQuery();
+
                 // CREATE APPLICATION SETTINGS TABLE
                 string obsSettings_SQL =
                     @"CREATE TABLE `obsSettings` ( `obs_IP` TEXT NOT NULL, `obs_PORT` TEXT NOT NULL, `obs_USERNAME` TEXT NOT NULL, `obs_PASSWORD` TEXT NOT NULL )";
                 SQLiteCommand obsSettings_CMD = new SQLiteCommand(obsSettings_SQL, Global.con);
                 obsSettings_CMD.ExecuteNonQuery();
 
+                // FIRST SETUP
+                string setup_SQL =
+                    @"CREATE TABLE `settings` ( `setup` TEXT NOT NULL, `id` TEXT NOT NULL )";
+                SQLiteCommand setup_CMD = new SQLiteCommand(setup_SQL, Global.con);
+                setup_CMD.ExecuteNonQuery();
+
+                string setupInsert_SQL =
+                    @"INSERT INTO settings (setup, id) " +
+                    "VALUES ('False', '1');";
+                SQLiteCommand setupInsert_CMD = new SQLiteCommand(setupInsert_SQL, Global.con);
+                setupInsert_CMD.ExecuteNonQuery();
+
+                // SCOREBOARD FILL
+                string leftTeam_SQL =
+                    @"INSERT INTO `currentGame` ( team, name, score, timeouts, fouls ) " +
+                    "VALUES ( 'left', 'school', '0', '5', '0' )";
+                SQLiteCommand leftTeam_CMD = new SQLiteCommand(leftTeam_SQL, Global.con);
+                leftTeam_CMD.ExecuteNonQuery();
+
+                string rightTeam_SQL =
+                    @"INSERT INTO `currentGame` ( team, name, score, timeouts, fouls ) " +
+                    "VALUES ( 'right', 'school', '0', '5', '0' )";
+                SQLiteCommand righTeam_CMD = new SQLiteCommand(rightTeam_SQL, Global.con);
+                leftTeam_CMD.ExecuteNonQuery();
+
+                // UPDATE SETUP
+                string updateSetup_SQL =
+                    @"UPDATE settings " +
+                    "SET setup = 'true' " +
+                    "WHERE id = '1'";
+                SQLiteCommand updateSetup_CMD = new SQLiteCommand(updateSetup_SQL, Global.con);
+                updateSetup_CMD.ExecuteNonQuery();
+
                 // CLOSE DATABASE CONNECTIONS
                 Global.con.Close();
             }
             catch { }
-        }
-    }
-
-    public class TextBoxConsole : TextWriter
-    {
-        TextBox output = null;
-
-        public TextBoxConsole(TextBox _output)
-        {
-            output = _output;
-            output.ScrollBars = ScrollBars.Both;
-            output.WordWrap = true;
-        }
-
-        public override void Write(char value)
-        {
-            base.Write(value);
-            output.AppendText(value.ToString());
-        }
-
-        public override Encoding Encoding
-        {
-            get { return System.Text.Encoding.UTF8; }
         }
     }
 }

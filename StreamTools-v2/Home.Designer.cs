@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.gameSetup_TabPage = new System.Windows.Forms.TabPage();
+            this.gameType_GB = new System.Windows.Forms.GroupBox();
+            this.gameType_CB = new System.Windows.Forms.ComboBox();
             this.musicPlaylist_GB = new System.Windows.Forms.GroupBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.musicRefresh_BTN = new System.Windows.Forms.Button();
@@ -63,8 +66,8 @@
             this.right_Mascot = new System.Windows.Forms.Label();
             this.right_School_CB = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.rightScore_LBL = new System.Windows.Forms.Label();
+            this.rightTimeouts_LBL = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.right_TimeoutDecrease = new System.Windows.Forms.Button();
             this.right_TimeoutIncrease = new System.Windows.Forms.Button();
@@ -80,8 +83,8 @@
             this.left_Mascot = new System.Windows.Forms.Label();
             this.left_School_CB = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.leftScore_LBL = new System.Windows.Forms.Label();
+            this.leftTimeouts_LBL = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.left_TimeoutDecrease = new System.Windows.Forms.Button();
             this.left_TimeoutIncrease = new System.Windows.Forms.Button();
@@ -93,24 +96,24 @@
             this.left_ScoreIncrease2 = new System.Windows.Forms.Button();
             this.left_ScoreIncrease3 = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.timeClock_LBL = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.time_SecondDecrease1 = new System.Windows.Forms.Button();
             this.time_SecondIncrease1 = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.time_MinuteDecrease1 = new System.Windows.Forms.Button();
             this.time_MinuteIncrease1 = new System.Windows.Forms.Button();
-            this.label21 = new System.Windows.Forms.Label();
+            this.scoreQuarter_LBL = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.quarter_decrease1 = new System.Windows.Forms.Button();
             this.quarter_Increase1 = new System.Windows.Forms.Button();
             this.updateOBS = new System.Windows.Forms.Button();
             this.connectOBS_Button = new System.Windows.Forms.Button();
             this.connectionNotification_Label = new System.Windows.Forms.Label();
-            this.gameType_GB = new System.Windows.Forms.GroupBox();
-            this.gameType_CB = new System.Windows.Forms.ComboBox();
+            this.timeClock_Timer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.gameSetup_TabPage.SuspendLayout();
+            this.gameType_GB.SuspendLayout();
             this.musicPlaylist_GB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.rightTeam_GB.SuspendLayout();
@@ -130,7 +133,6 @@
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            this.gameType_GB.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -156,6 +158,24 @@
             this.gameSetup_TabPage.TabIndex = 0;
             this.gameSetup_TabPage.Text = "Game Setup";
             this.gameSetup_TabPage.UseVisualStyleBackColor = true;
+            // 
+            // gameType_GB
+            // 
+            this.gameType_GB.Controls.Add(this.gameType_CB);
+            this.gameType_GB.Location = new System.Drawing.Point(353, 6);
+            this.gameType_GB.Name = "gameType_GB";
+            this.gameType_GB.Size = new System.Drawing.Size(388, 46);
+            this.gameType_GB.TabIndex = 7;
+            this.gameType_GB.TabStop = false;
+            this.gameType_GB.Text = "Game Type";
+            // 
+            // gameType_CB
+            // 
+            this.gameType_CB.FormattingEnabled = true;
+            this.gameType_CB.Location = new System.Drawing.Point(6, 16);
+            this.gameType_CB.Name = "gameType_CB";
+            this.gameType_CB.Size = new System.Drawing.Size(376, 21);
+            this.gameType_CB.TabIndex = 3;
             // 
             // musicPlaylist_GB
             // 
@@ -447,8 +467,8 @@
             this.groupBox4.Controls.Add(this.right_Mascot);
             this.groupBox4.Controls.Add(this.right_School_CB);
             this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Controls.Add(this.label20);
+            this.groupBox4.Controls.Add(this.rightScore_LBL);
+            this.groupBox4.Controls.Add(this.rightTimeouts_LBL);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Location = new System.Drawing.Point(446, 6);
@@ -493,25 +513,25 @@
             this.label18.TabIndex = 10;
             this.label18.Text = "School";
             // 
-            // label19
+            // rightScore_LBL
             // 
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(91, 19);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(189, 33);
-            this.label19.TabIndex = 9;
-            this.label19.Text = "0";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.rightScore_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rightScore_LBL.Location = new System.Drawing.Point(91, 19);
+            this.rightScore_LBL.Name = "rightScore_LBL";
+            this.rightScore_LBL.Size = new System.Drawing.Size(189, 33);
+            this.rightScore_LBL.TabIndex = 9;
+            this.rightScore_LBL.Text = "0";
+            this.rightScore_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label20
+            // rightTimeouts_LBL
             // 
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(6, 19);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(73, 33);
-            this.label20.TabIndex = 9;
-            this.label20.Text = "5";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.rightTimeouts_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rightTimeouts_LBL.Location = new System.Drawing.Point(6, 19);
+            this.rightTimeouts_LBL.Name = "rightTimeouts_LBL";
+            this.rightTimeouts_LBL.Size = new System.Drawing.Size(73, 33);
+            this.rightTimeouts_LBL.TabIndex = 9;
+            this.rightTimeouts_LBL.Text = "5";
+            this.rightTimeouts_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // groupBox5
             // 
@@ -526,25 +546,23 @@
             // 
             // right_TimeoutDecrease
             // 
-            this.right_TimeoutDecrease.Enabled = false;
             this.right_TimeoutDecrease.Location = new System.Drawing.Point(6, 66);
             this.right_TimeoutDecrease.Name = "right_TimeoutDecrease";
             this.right_TimeoutDecrease.Size = new System.Drawing.Size(59, 41);
             this.right_TimeoutDecrease.TabIndex = 7;
             this.right_TimeoutDecrease.Text = "-1";
             this.right_TimeoutDecrease.UseVisualStyleBackColor = true;
-            this.right_TimeoutDecrease.Visible = false;
+            this.right_TimeoutDecrease.Click += new System.EventHandler(this.right_TimeoutDecrease_Click);
             // 
             // right_TimeoutIncrease
             // 
-            this.right_TimeoutIncrease.Enabled = false;
             this.right_TimeoutIncrease.Location = new System.Drawing.Point(6, 19);
             this.right_TimeoutIncrease.Name = "right_TimeoutIncrease";
             this.right_TimeoutIncrease.Size = new System.Drawing.Size(59, 41);
             this.right_TimeoutIncrease.TabIndex = 7;
             this.right_TimeoutIncrease.Text = "+1";
             this.right_TimeoutIncrease.UseVisualStyleBackColor = true;
-            this.right_TimeoutIncrease.Visible = false;
+            this.right_TimeoutIncrease.Click += new System.EventHandler(this.right_TimeoutIncrease_Click);
             // 
             // groupBox6
             // 
@@ -563,69 +581,63 @@
             // 
             // right_ScoreDecrease1
             // 
-            this.right_ScoreDecrease1.Enabled = false;
             this.right_ScoreDecrease1.Location = new System.Drawing.Point(136, 66);
             this.right_ScoreDecrease1.Name = "right_ScoreDecrease1";
             this.right_ScoreDecrease1.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreDecrease1.TabIndex = 7;
             this.right_ScoreDecrease1.Text = "-1";
             this.right_ScoreDecrease1.UseVisualStyleBackColor = true;
-            this.right_ScoreDecrease1.Visible = false;
+            this.right_ScoreDecrease1.Click += new System.EventHandler(this.right_ScoreDecrease1_Click);
             // 
             // right_ScoreDecrease2
             // 
-            this.right_ScoreDecrease2.Enabled = false;
             this.right_ScoreDecrease2.Location = new System.Drawing.Point(71, 66);
             this.right_ScoreDecrease2.Name = "right_ScoreDecrease2";
             this.right_ScoreDecrease2.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreDecrease2.TabIndex = 7;
             this.right_ScoreDecrease2.Text = "-2";
             this.right_ScoreDecrease2.UseVisualStyleBackColor = true;
-            this.right_ScoreDecrease2.Visible = false;
+            this.right_ScoreDecrease2.Click += new System.EventHandler(this.right_ScoreDecrease2_Click);
             // 
             // right_ScoreDecrease3
             // 
-            this.right_ScoreDecrease3.Enabled = false;
             this.right_ScoreDecrease3.Location = new System.Drawing.Point(6, 66);
             this.right_ScoreDecrease3.Name = "right_ScoreDecrease3";
             this.right_ScoreDecrease3.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreDecrease3.TabIndex = 7;
             this.right_ScoreDecrease3.Text = "-3";
             this.right_ScoreDecrease3.UseVisualStyleBackColor = true;
-            this.right_ScoreDecrease3.Visible = false;
+            this.right_ScoreDecrease3.Click += new System.EventHandler(this.right_ScoreDecrease3_Click);
             // 
             // right_ScoreIncrease1
             // 
-            this.right_ScoreIncrease1.Enabled = false;
             this.right_ScoreIncrease1.Location = new System.Drawing.Point(136, 19);
             this.right_ScoreIncrease1.Name = "right_ScoreIncrease1";
             this.right_ScoreIncrease1.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreIncrease1.TabIndex = 7;
             this.right_ScoreIncrease1.Text = "+1";
             this.right_ScoreIncrease1.UseVisualStyleBackColor = true;
-            this.right_ScoreIncrease1.Visible = false;
+            this.right_ScoreIncrease1.Click += new System.EventHandler(this.right_ScoreIncrease1_Click);
             // 
             // right_ScoreIncrease2
             // 
-            this.right_ScoreIncrease2.Enabled = false;
             this.right_ScoreIncrease2.Location = new System.Drawing.Point(71, 19);
             this.right_ScoreIncrease2.Name = "right_ScoreIncrease2";
             this.right_ScoreIncrease2.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreIncrease2.TabIndex = 7;
             this.right_ScoreIncrease2.Text = "+2";
             this.right_ScoreIncrease2.UseVisualStyleBackColor = true;
-            this.right_ScoreIncrease2.Visible = false;
+            this.right_ScoreIncrease2.Click += new System.EventHandler(this.right_ScoreIncrease2_Click);
             // 
             // right_ScoreIncrease3
             // 
-            this.right_ScoreIncrease3.Enabled = false;
             this.right_ScoreIncrease3.Location = new System.Drawing.Point(6, 19);
             this.right_ScoreIncrease3.Name = "right_ScoreIncrease3";
             this.right_ScoreIncrease3.Size = new System.Drawing.Size(59, 41);
             this.right_ScoreIncrease3.TabIndex = 7;
             this.right_ScoreIncrease3.Text = "+3";
             this.right_ScoreIncrease3.UseVisualStyleBackColor = true;
-            this.right_ScoreIncrease3.Visible = false;
+            this.right_ScoreIncrease3.Click += new System.EventHandler(this.right_ScoreIncrease3_Click);
             // 
             // groupBox2
             // 
@@ -633,8 +645,8 @@
             this.groupBox2.Controls.Add(this.left_Mascot);
             this.groupBox2.Controls.Add(this.left_School_CB);
             this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.leftScore_LBL);
+            this.groupBox2.Controls.Add(this.leftTimeouts_LBL);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(6, 6);
@@ -678,25 +690,25 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "School";
             // 
-            // label12
+            // leftScore_LBL
             // 
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(91, 19);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(189, 33);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "0";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.leftScore_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.leftScore_LBL.Location = new System.Drawing.Point(91, 19);
+            this.leftScore_LBL.Name = "leftScore_LBL";
+            this.leftScore_LBL.Size = new System.Drawing.Size(189, 33);
+            this.leftScore_LBL.TabIndex = 9;
+            this.leftScore_LBL.Text = "0";
+            this.leftScore_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label11
+            // leftTimeouts_LBL
             // 
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(6, 19);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(73, 33);
-            this.label11.TabIndex = 9;
-            this.label11.Text = "5";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.leftTimeouts_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.leftTimeouts_LBL.Location = new System.Drawing.Point(6, 19);
+            this.leftTimeouts_LBL.Name = "leftTimeouts_LBL";
+            this.leftTimeouts_LBL.Size = new System.Drawing.Size(73, 33);
+            this.leftTimeouts_LBL.TabIndex = 9;
+            this.leftTimeouts_LBL.Text = "5";
+            this.leftTimeouts_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // groupBox1
             // 
@@ -711,25 +723,23 @@
             // 
             // left_TimeoutDecrease
             // 
-            this.left_TimeoutDecrease.Enabled = false;
             this.left_TimeoutDecrease.Location = new System.Drawing.Point(6, 66);
             this.left_TimeoutDecrease.Name = "left_TimeoutDecrease";
             this.left_TimeoutDecrease.Size = new System.Drawing.Size(59, 41);
             this.left_TimeoutDecrease.TabIndex = 7;
             this.left_TimeoutDecrease.Text = "-1";
             this.left_TimeoutDecrease.UseVisualStyleBackColor = true;
-            this.left_TimeoutDecrease.Visible = false;
+            this.left_TimeoutDecrease.Click += new System.EventHandler(this.left_TimeoutDecrease_Click);
             // 
             // left_TimeoutIncrease
             // 
-            this.left_TimeoutIncrease.Enabled = false;
             this.left_TimeoutIncrease.Location = new System.Drawing.Point(6, 19);
             this.left_TimeoutIncrease.Name = "left_TimeoutIncrease";
             this.left_TimeoutIncrease.Size = new System.Drawing.Size(59, 41);
             this.left_TimeoutIncrease.TabIndex = 7;
             this.left_TimeoutIncrease.Text = "+1";
             this.left_TimeoutIncrease.UseVisualStyleBackColor = true;
-            this.left_TimeoutIncrease.Visible = false;
+            this.left_TimeoutIncrease.Click += new System.EventHandler(this.left_TimeoutIncrease_Click);
             // 
             // groupBox3
             // 
@@ -748,76 +758,70 @@
             // 
             // left_ScoreDecrease1
             // 
-            this.left_ScoreDecrease1.Enabled = false;
             this.left_ScoreDecrease1.Location = new System.Drawing.Point(136, 66);
             this.left_ScoreDecrease1.Name = "left_ScoreDecrease1";
             this.left_ScoreDecrease1.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreDecrease1.TabIndex = 7;
             this.left_ScoreDecrease1.Text = "-1";
             this.left_ScoreDecrease1.UseVisualStyleBackColor = true;
-            this.left_ScoreDecrease1.Visible = false;
+            this.left_ScoreDecrease1.Click += new System.EventHandler(this.left_ScoreDecrease1_Click);
             // 
             // left_ScoreDecrease2
             // 
-            this.left_ScoreDecrease2.Enabled = false;
             this.left_ScoreDecrease2.Location = new System.Drawing.Point(71, 66);
             this.left_ScoreDecrease2.Name = "left_ScoreDecrease2";
             this.left_ScoreDecrease2.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreDecrease2.TabIndex = 7;
             this.left_ScoreDecrease2.Text = "-2";
             this.left_ScoreDecrease2.UseVisualStyleBackColor = true;
-            this.left_ScoreDecrease2.Visible = false;
+            this.left_ScoreDecrease2.Click += new System.EventHandler(this.left_ScoreDecrease2_Click);
             // 
             // left_ScoreDecrease3
             // 
-            this.left_ScoreDecrease3.Enabled = false;
             this.left_ScoreDecrease3.Location = new System.Drawing.Point(6, 66);
             this.left_ScoreDecrease3.Name = "left_ScoreDecrease3";
             this.left_ScoreDecrease3.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreDecrease3.TabIndex = 7;
             this.left_ScoreDecrease3.Text = "-3";
             this.left_ScoreDecrease3.UseVisualStyleBackColor = true;
-            this.left_ScoreDecrease3.Visible = false;
+            this.left_ScoreDecrease3.Click += new System.EventHandler(this.left_ScoreDecrease3_Click);
             // 
             // left_ScoreIncrease1
             // 
-            this.left_ScoreIncrease1.Enabled = false;
             this.left_ScoreIncrease1.Location = new System.Drawing.Point(136, 19);
             this.left_ScoreIncrease1.Name = "left_ScoreIncrease1";
             this.left_ScoreIncrease1.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreIncrease1.TabIndex = 7;
             this.left_ScoreIncrease1.Text = "+1";
             this.left_ScoreIncrease1.UseVisualStyleBackColor = true;
-            this.left_ScoreIncrease1.Visible = false;
+            this.left_ScoreIncrease1.Click += new System.EventHandler(this.left_ScoreIncrease1_Click);
             // 
             // left_ScoreIncrease2
             // 
-            this.left_ScoreIncrease2.Enabled = false;
             this.left_ScoreIncrease2.Location = new System.Drawing.Point(71, 19);
             this.left_ScoreIncrease2.Name = "left_ScoreIncrease2";
             this.left_ScoreIncrease2.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreIncrease2.TabIndex = 7;
             this.left_ScoreIncrease2.Text = "+2";
             this.left_ScoreIncrease2.UseVisualStyleBackColor = true;
-            this.left_ScoreIncrease2.Visible = false;
+            this.left_ScoreIncrease2.Click += new System.EventHandler(this.left_ScoreIncrease2_Click);
             // 
             // left_ScoreIncrease3
             // 
-            this.left_ScoreIncrease3.Enabled = false;
             this.left_ScoreIncrease3.Location = new System.Drawing.Point(6, 19);
             this.left_ScoreIncrease3.Name = "left_ScoreIncrease3";
             this.left_ScoreIncrease3.Size = new System.Drawing.Size(59, 41);
             this.left_ScoreIncrease3.TabIndex = 7;
             this.left_ScoreIncrease3.Text = "+3";
             this.left_ScoreIncrease3.UseVisualStyleBackColor = true;
-            this.left_ScoreIncrease3.Visible = false;
+            this.left_ScoreIncrease3.Click += new System.EventHandler(this.left_ScoreIncrease3_Click);
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.timeClock_LBL);
             this.groupBox7.Controls.Add(this.groupBox9);
             this.groupBox7.Controls.Add(this.groupBox8);
-            this.groupBox7.Controls.Add(this.label21);
+            this.groupBox7.Controls.Add(this.scoreQuarter_LBL);
             this.groupBox7.Controls.Add(this.groupBox10);
             this.groupBox7.Location = new System.Drawing.Point(304, 6);
             this.groupBox7.Name = "groupBox7";
@@ -826,15 +830,16 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Time Clock";
             // 
-            // label22
+            // timeClock_LBL
             // 
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(6, 27);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(124, 33);
-            this.label22.TabIndex = 9;
-            this.label22.Text = "12:00";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.timeClock_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeClock_LBL.Location = new System.Drawing.Point(6, 27);
+            this.timeClock_LBL.Name = "timeClock_LBL";
+            this.timeClock_LBL.Size = new System.Drawing.Size(124, 33);
+            this.timeClock_LBL.TabIndex = 9;
+            this.timeClock_LBL.Text = "12:00";
+            this.timeClock_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.timeClock_LBL.Click += new System.EventHandler(this.timeClock_LBL_Click);
             // 
             // groupBox9
             // 
@@ -849,25 +854,23 @@
             // 
             // time_SecondDecrease1
             // 
-            this.time_SecondDecrease1.Enabled = false;
             this.time_SecondDecrease1.Location = new System.Drawing.Point(6, 66);
             this.time_SecondDecrease1.Name = "time_SecondDecrease1";
             this.time_SecondDecrease1.Size = new System.Drawing.Size(38, 41);
             this.time_SecondDecrease1.TabIndex = 7;
             this.time_SecondDecrease1.Text = "-1";
             this.time_SecondDecrease1.UseVisualStyleBackColor = true;
-            this.time_SecondDecrease1.Visible = false;
+            this.time_SecondDecrease1.Click += new System.EventHandler(this.time_SecondDecrease1_Click);
             // 
             // time_SecondIncrease1
             // 
-            this.time_SecondIncrease1.Enabled = false;
             this.time_SecondIncrease1.Location = new System.Drawing.Point(6, 19);
             this.time_SecondIncrease1.Name = "time_SecondIncrease1";
             this.time_SecondIncrease1.Size = new System.Drawing.Size(38, 41);
             this.time_SecondIncrease1.TabIndex = 7;
             this.time_SecondIncrease1.Text = "+1";
             this.time_SecondIncrease1.UseVisualStyleBackColor = true;
-            this.time_SecondIncrease1.Visible = false;
+            this.time_SecondIncrease1.Click += new System.EventHandler(this.time_SecondIncrease1_Click);
             // 
             // groupBox8
             // 
@@ -882,35 +885,33 @@
             // 
             // time_MinuteDecrease1
             // 
-            this.time_MinuteDecrease1.Enabled = false;
             this.time_MinuteDecrease1.Location = new System.Drawing.Point(6, 66);
             this.time_MinuteDecrease1.Name = "time_MinuteDecrease1";
             this.time_MinuteDecrease1.Size = new System.Drawing.Size(38, 41);
             this.time_MinuteDecrease1.TabIndex = 7;
             this.time_MinuteDecrease1.Text = "-1";
             this.time_MinuteDecrease1.UseVisualStyleBackColor = true;
-            this.time_MinuteDecrease1.Visible = false;
+            this.time_MinuteDecrease1.Click += new System.EventHandler(this.time_MinuteDecrease1_Click);
             // 
             // time_MinuteIncrease1
             // 
-            this.time_MinuteIncrease1.Enabled = false;
             this.time_MinuteIncrease1.Location = new System.Drawing.Point(6, 19);
             this.time_MinuteIncrease1.Name = "time_MinuteIncrease1";
             this.time_MinuteIncrease1.Size = new System.Drawing.Size(38, 41);
             this.time_MinuteIncrease1.TabIndex = 7;
             this.time_MinuteIncrease1.Text = "+1";
             this.time_MinuteIncrease1.UseVisualStyleBackColor = true;
-            this.time_MinuteIncrease1.Visible = false;
+            this.time_MinuteIncrease1.Click += new System.EventHandler(this.time_MinuteIncrease1_Click);
             // 
-            // label21
+            // scoreQuarter_LBL
             // 
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(34, 196);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(73, 33);
-            this.label21.TabIndex = 9;
-            this.label21.Text = "1";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.scoreQuarter_LBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scoreQuarter_LBL.Location = new System.Drawing.Point(34, 196);
+            this.scoreQuarter_LBL.Name = "scoreQuarter_LBL";
+            this.scoreQuarter_LBL.Size = new System.Drawing.Size(73, 33);
+            this.scoreQuarter_LBL.TabIndex = 9;
+            this.scoreQuarter_LBL.Text = "1";
+            this.scoreQuarter_LBL.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // groupBox10
             // 
@@ -925,25 +926,23 @@
             // 
             // quarter_decrease1
             // 
-            this.quarter_decrease1.Enabled = false;
             this.quarter_decrease1.Location = new System.Drawing.Point(6, 48);
             this.quarter_decrease1.Name = "quarter_decrease1";
             this.quarter_decrease1.Size = new System.Drawing.Size(59, 23);
             this.quarter_decrease1.TabIndex = 7;
             this.quarter_decrease1.Text = "-1";
             this.quarter_decrease1.UseVisualStyleBackColor = true;
-            this.quarter_decrease1.Visible = false;
+            this.quarter_decrease1.Click += new System.EventHandler(this.quarter_decrease1_Click);
             // 
             // quarter_Increase1
             // 
-            this.quarter_Increase1.Enabled = false;
             this.quarter_Increase1.Location = new System.Drawing.Point(6, 19);
             this.quarter_Increase1.Name = "quarter_Increase1";
             this.quarter_Increase1.Size = new System.Drawing.Size(59, 23);
             this.quarter_Increase1.TabIndex = 7;
             this.quarter_Increase1.Text = "+1";
             this.quarter_Increase1.UseVisualStyleBackColor = true;
-            this.quarter_Increase1.Visible = false;
+            this.quarter_Increase1.Click += new System.EventHandler(this.quarter_Increase1_Click);
             // 
             // updateOBS
             // 
@@ -974,23 +973,9 @@
             this.connectionNotification_Label.TabIndex = 2;
             this.connectionNotification_Label.Text = "Disconnected";
             // 
-            // gameType_GB
+            // timeClock_Timer
             // 
-            this.gameType_GB.Controls.Add(this.gameType_CB);
-            this.gameType_GB.Location = new System.Drawing.Point(353, 6);
-            this.gameType_GB.Name = "gameType_GB";
-            this.gameType_GB.Size = new System.Drawing.Size(388, 46);
-            this.gameType_GB.TabIndex = 7;
-            this.gameType_GB.TabStop = false;
-            this.gameType_GB.Text = "Game Type";
-            // 
-            // gameType_CB
-            // 
-            this.gameType_CB.FormattingEnabled = true;
-            this.gameType_CB.Location = new System.Drawing.Point(6, 16);
-            this.gameType_CB.Name = "gameType_CB";
-            this.gameType_CB.Size = new System.Drawing.Size(376, 21);
-            this.gameType_CB.TabIndex = 3;
+            this.timeClock_Timer.Tick += new System.EventHandler(this.timeClock_Timer_Tick);
             // 
             // home_FRM
             // 
@@ -1010,6 +995,7 @@
             this.Load += new System.EventHandler(this.home_FRM_Load);
             this.tabControl1.ResumeLayout(false);
             this.gameSetup_TabPage.ResumeLayout(false);
+            this.gameType_GB.ResumeLayout(false);
             this.musicPlaylist_GB.ResumeLayout(false);
             this.musicPlaylist_GB.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -1034,7 +1020,6 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
-            this.gameType_GB.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1090,8 +1075,8 @@
         private System.Windows.Forms.Label right_Mascot;
         private System.Windows.Forms.ComboBox right_School_CB;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label rightScore_LBL;
+        private System.Windows.Forms.Label rightTimeouts_LBL;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button right_TimeoutDecrease;
         private System.Windows.Forms.Button right_TimeoutIncrease;
@@ -1106,22 +1091,23 @@
         private System.Windows.Forms.Label left_Mascot;
         private System.Windows.Forms.ComboBox left_School_CB;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label leftScore_LBL;
+        private System.Windows.Forms.Label leftTimeouts_LBL;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label timeClock_LBL;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button time_SecondDecrease1;
         private System.Windows.Forms.Button time_SecondIncrease1;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Button time_MinuteDecrease1;
         private System.Windows.Forms.Button time_MinuteIncrease1;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label scoreQuarter_LBL;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Button quarter_decrease1;
         private System.Windows.Forms.Button quarter_Increase1;
         private System.Windows.Forms.GroupBox gameType_GB;
         private System.Windows.Forms.ComboBox gameType_CB;
+        private System.Windows.Forms.Timer timeClock_Timer;
     }
 }
 
