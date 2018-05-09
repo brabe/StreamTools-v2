@@ -98,7 +98,7 @@ namespace StreamTools_v2
 
                 // CREATE APPLICATION SETTINGS TABLE
                 string obsSettings_SQL =
-                    @"CREATE TABLE `obsSettings` ( `obs_IP` TEXT NOT NULL, `obs_PORT` TEXT NOT NULL, `obs_USERNAME` TEXT NOT NULL, `obs_PASSWORD` TEXT NOT NULL )";
+                    @"CREATE TABLE `obsSettings` ( `id` TEXT NOT NULL, `obs_IP` TEXT NOT NULL, `obs_PORT` TEXT NOT NULL, `obs_USERNAME` TEXT NOT NULL, `obs_PASSWORD` TEXT NOT NULL )";
                 SQLiteCommand obsSettings_CMD = new SQLiteCommand(obsSettings_SQL, Global.con);
                 obsSettings_CMD.ExecuteNonQuery();
 

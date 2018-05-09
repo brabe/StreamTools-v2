@@ -138,6 +138,7 @@
     <EmbeddedResource Include="SchoolManager.resx">
       <DependentUpon>SchoolManager.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="OBS_SceneSettings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -149,6 +150,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Settings.db" />
+    <None Include="Stream Deck Buttons.psd" />
+    <None Include="TigerTVOverlay.psd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
