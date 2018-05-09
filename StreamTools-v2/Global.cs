@@ -62,14 +62,6 @@ namespace StreamTools_v2
             // CREATE SQLITE DATABASE
             try
             {
-                // FOR DEVELOPMENT PURPOSES // DELETE DATABASE ON SETUP
-                try
-                {
-                    File.Delete(workingDir + @"\Settings.db");
-                    Console.WriteLine("Database Deleted!");
-                }
-                catch { }
-
                 SQLiteConnection.CreateFile("Settings.db");
                 Console.WriteLine("Database Created");
                 createSQLTables();
@@ -134,6 +126,12 @@ namespace StreamTools_v2
                     "VALUES ( 'right', 'school', '0', '5', '0' )";
                 SQLiteCommand righTeam_CMD = new SQLiteCommand(rightTeam_SQL, Global.con);
                 leftTeam_CMD.ExecuteNonQuery();
+
+                string gameTeam_SQL =
+                    @"INSERT INTO `currentGame` ( team, name, score, timeouts, fouls ) " +
+                    "VALUES ( 'game', 'game', '1', '12', '0' )";
+                SQLiteCommand gameTeam_CMD = new SQLiteCommand(gameTeam_SQL, Global.con);
+                gameTeam_CMD.ExecuteNonQuery();
 
                 // UPDATE SETUP
                 string updateSetup_SQL =

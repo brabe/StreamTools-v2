@@ -952,6 +952,7 @@
             this.updateOBS.TabIndex = 1;
             this.updateOBS.Text = "Update OBS";
             this.updateOBS.UseVisualStyleBackColor = true;
+            this.updateOBS.Click += new System.EventHandler(this.updateOBS_Click);
             // 
             // connectOBS_Button
             // 

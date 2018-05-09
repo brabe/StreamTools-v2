@@ -12,13 +12,15 @@ using StreamTools_v2.OBS;
 using System.Data.SQLite;
 using System.IO;
 using StreamDeckSharp;
-using System.Drawing.Imaging;
+using Newtonsoft.Json.Linq;
 
 namespace StreamTools_v2
 {
     public partial class home_FRM : Form
     {
         protected OBSWebsocket _obs;
+
+        #region Form Initialize / Loading / Closing
 
         public home_FRM()
         {
@@ -46,6 +48,56 @@ namespace StreamTools_v2
             musicRefresh_BTN.PerformClick();
         }
 
+
+        private void home_FRM_Load(object sender, EventArgs e)
+        {
+            elgatoStreamDeck(this);
+
+            musicRefresh_BTN.PerformClick();
+            startScoreboard();
+
+            connectOBS_Button.PerformClick();
+
+            updateQuarter();
+        }
+
+        private void home_FRM_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            deck.ShowLogo();
+        }
+        #endregion
+
+        private void updateOBS_Click(object sender, EventArgs e)
+        {
+            setGraphics();
+        }
+
+        // TEST TEST TES
+        private void setGraphics()
+        {
+            // OBS UPDATE
+            JObject testObject = new JObject();
+            testObject.Add("sourceName", "RightTeamGraphic");
+
+            JObject sourceObject = new JObject();
+            sourceObject.Add("file", Global.obsTeamExport + @"\1\RightGraphicGirls.png");
+
+            testObject.Add("sourceSettings", sourceObject);
+
+            _obs.SendRequest("SetSourceSettings", testObject);
+
+            // OBS UPDATE
+            JObject testObject2 = new JObject();
+            testObject2.Add("sourceName", "LeftTeamGraphic");
+
+            JObject sourceObject2 = new JObject();
+            sourceObject2.Add("file", Global.obsTeamExport + @"\1\LeftGraphicGirls.png");
+
+            testObject2.Add("sourceSettings", sourceObject2);
+
+            _obs.SendRequest("SetSourceSettings", testObject2);
+        }
+
         public void connectOBS(object sender, EventArgs e)
         {
             string ipAddress;
@@ -54,18 +106,18 @@ namespace StreamTools_v2
 
             string sqlQuery =
                 "SELECT * " +
-                "FROM connectionInformation " +
-                "WHERE id='1'";
+                "FROM obsSettings " +
+                "WHERE ID='1'";
 
-            //SqlDataAdapter sda = new SqlDataAdapter(sqlQuery, Global.con);
+            SQLiteDataAdapter sda = new SQLiteDataAdapter(sqlQuery, Global.con);
             DataTable connectDT = new DataTable();
-            //sda.Fill(connectDT);
+            sda.Fill(connectDT);
 
             DataRow connectDR = connectDT.Rows[0];
 
-            ipAddress = connectDR["ipAddress"].ToString();
-            password = connectDR["password"].ToString();
-            port = connectDR["port"].ToString();
+            ipAddress = connectDR["obs_IP"].ToString();
+            password = connectDR["obs_PASSWORD"].ToString();
+            port = connectDR["obs_PORT"].ToString();
 
             if (!_obs.IsConnected)
             {
@@ -828,19 +880,51 @@ namespace StreamTools_v2
         }
         #endregion
 
-        private void home_FRM_Load(object sender, EventArgs e)
-        {
-            elgatoStreamDeck(this);
+        #region Scorebug / Scoreboard
 
-            musicRefresh_BTN.PerformClick();
+        private void startScoreboard()
+        {
+            string sqlQueryScore = "" +
+                "SELECT * " +
+                "FROM currentGame ";
+
+            DataTable dataTable = new DataTable();
+
+            SQLiteDataAdapter sql_DA = new SQLiteDataAdapter(sqlQueryScore, Global.con);
+            sql_DA.Fill(dataTable);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if (row["team"].ToString() == "left")
+                {
+                    leftTimeout = Convert.ToInt32(row["timeouts"].ToString());
+                    leftScore = Convert.ToInt32(row["score"].ToString());
+                }
+
+                if (row["team"].ToString() == "right")
+                {
+                    rightTimeout = Convert.ToInt32(row["timeouts"].ToString());
+                    rightScore = Convert.ToInt32(row["score"].ToString());
+                }
+
+                if (row["team"].ToString() == "game")
+                {
+                    scoreQuarter = Convert.ToInt32(row["score"].ToString());
+                    scoreTimeMin = Convert.ToInt32(row["timeouts"].ToString());
+                    scoreTimeSec = Convert.ToInt32(row["fouls"].ToString());
+                }
+            }
+
+            leftTimeouts_LBL.Text = leftTimeout.ToString();
+            leftScore_LBL.Text = leftScore.ToString();
+
+            rightTimeouts_LBL.Text = rightTimeout.ToString();
+            rightScore_LBL.Text = rightScore.ToString();
+
+            scoreQuarter_LBL.Text = scoreQuarter.ToString();
         }
 
-        private void home_FRM_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            deck.ShowLogo();
-        }
-
-        #region Scorebug
+        #region Scorebug Variables
         int leftTimeout;
         int leftScore;
 
@@ -851,7 +935,26 @@ namespace StreamTools_v2
         int scoreTimeSec;
         int scoreTimeMil;
 
-        int scoreQuarter;
+        int scoreQuarter = 0;
+        #endregion
+
+        #region TimeClock
+        #region timeClock KeyBitmaps
+        KeyBitmap timeIncrease = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
+        KeyBitmap timeDecrease = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
+        KeyBitmap time0 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
+        KeyBitmap time1 = KeyBitmap.FromFile(@"CustomDeck\time1.png");
+        KeyBitmap time2 = KeyBitmap.FromFile(@"CustomDeck\time2.png");
+        KeyBitmap time3 = KeyBitmap.FromFile(@"CustomDeck\time3.png");
+        KeyBitmap time4 = KeyBitmap.FromFile(@"CustomDeck\time4.png");
+        KeyBitmap time5 = KeyBitmap.FromFile(@"CustomDeck\time5.png");
+        KeyBitmap time6 = KeyBitmap.FromFile(@"CustomDeck\time6.png");
+        KeyBitmap time7 = KeyBitmap.FromFile(@"CustomDeck\time7.png");
+        KeyBitmap time8 = KeyBitmap.FromFile(@"CustomDeck\time8.png");
+        KeyBitmap time9 = KeyBitmap.FromFile(@"CustomDeck\time9.png");
+        KeyBitmap period = KeyBitmap.FromFile(@"CustomDeck\timePeriod.png");
+        KeyBitmap colon = KeyBitmap.FromFile(@"CustomDeck\timeColon.png");
+        #endregion
 
         private void timeClock_Timer_Tick(object sender, EventArgs e)
         {
@@ -882,26 +985,11 @@ namespace StreamTools_v2
                 scoreTimeMil = 0;
             }
 
-            
+
             Console.WriteLine(scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString() + ":" + scoreTimeMil.ToString());
             updateElgato_TimeClock();
-            
-        }
 
-        KeyBitmap timeIncrease = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
-        KeyBitmap timeDecrease = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
-        KeyBitmap time0 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
-        KeyBitmap time1 = KeyBitmap.FromFile(@"CustomDeck\time1.png");
-        KeyBitmap time2 = KeyBitmap.FromFile(@"CustomDeck\time2.png");
-        KeyBitmap time3 = KeyBitmap.FromFile(@"CustomDeck\time3.png");
-        KeyBitmap time4 = KeyBitmap.FromFile(@"CustomDeck\time4.png");
-        KeyBitmap time5 = KeyBitmap.FromFile(@"CustomDeck\time5.png");
-        KeyBitmap time6 = KeyBitmap.FromFile(@"CustomDeck\time6.png");
-        KeyBitmap time7 = KeyBitmap.FromFile(@"CustomDeck\time7.png");
-        KeyBitmap time8 = KeyBitmap.FromFile(@"CustomDeck\time8.png");
-        KeyBitmap time9 = KeyBitmap.FromFile(@"CustomDeck\time9.png");
-        KeyBitmap period = KeyBitmap.FromFile(@"CustomDeck\timePeriod.png");
-        KeyBitmap colon = KeyBitmap.FromFile(@"CustomDeck\timeColon.png");
+        }
 
         private void updateElgato_TimeClock()
         {
@@ -1221,7 +1309,6 @@ namespace StreamTools_v2
 
                     KeyBitmap bitStart = KeyBitmap.FromFile(@"CustomDeck\timeStart.png");
                     deck.SetKeyBitmap(12, bitStart);
-
                 }
             }
 
@@ -1234,47 +1321,29 @@ namespace StreamTools_v2
             {
                 this.InvokeEx(home_FRM => home_FRM.timeClock_LBL.Text = scoreTimeSec.ToString() + "." + scoreTimeMil.ToString());
 
+                // OBS UPDATE
+                JObject testObject = new JObject();
+                testObject.Add("scene-name", "SETUP-SCOREBUG");
+                testObject.Add("source", "timeClockText");
+                testObject.Add("text", scoreTimeSec.ToString() + "." + scoreTimeMil.ToString());
+
+                _obs.SendRequest("SetTextGDIPlusProperties", testObject);
             }
 
             if (scoreTimeMin != 0)
             {
                 this.InvokeEx(home_FRM => home_FRM.timeClock_LBL.Text = scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString("00"));
+
+                // OBS UPDATE
+                JObject testObject = new JObject();
+                testObject.Add("scene-name", "SETUP-SCOREBUG");
+                testObject.Add("source", "timeClockText");
+                testObject.Add("text", scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString("00"));
+
+                _obs.SendRequest("SetTextGDIPlusProperties", testObject);
             }
         }
-
-        private void startScoreboard()
-        {
-            string sqlQueryLeft = "" +
-                "SELECT team, name, score, timeouts " +
-                "FROM currentGame ";
-
-            DataTable dataTable = new DataTable();
-
-            SQLiteDataAdapter sql_DA = new SQLiteDataAdapter(sqlQueryLeft, Global.con);
-            sql_DA.Fill(dataTable);
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                if (row["team"].ToString() == "left")
-                {
-                    leftTimeout = Convert.ToInt32(row["timeouts"].ToString());
-                    leftScore = Convert.ToInt32(row["score"].ToString());
-                }
-
-                if (row["team"].ToString() == "right")
-                {
-                    rightTimeout = Convert.ToInt32(row["timeouts"].ToString());
-                    rightScore = Convert.ToInt32(row["score"].ToString());
-                }
-            }
-
-            leftTimeouts_LBL.Text = leftTimeout.ToString();
-            leftScore_LBL.Text = leftScore.ToString();
-
-            rightTimeouts_LBL.Text = rightTimeout.ToString();
-            rightScore_LBL.Text = rightScore.ToString();
-
-        }
+        #endregion
 
         #region Left Side Scoring / Timeouts
 
@@ -1429,6 +1498,9 @@ namespace StreamTools_v2
         }
         #endregion
 
+        #region Time Clock 
+
+        #region TIME
         private void time_MinuteIncrease1_Click(object sender, EventArgs e)
         {
             timeClock_Timer.Stop();
@@ -1496,16 +1568,73 @@ namespace StreamTools_v2
                 timeClock_Timer.Start();
             }
         }
+        #endregion
 
+        #region QUARTERS
         private void quarter_Increase1_Click(object sender, EventArgs e)
         {
+            scoreQuarter = scoreQuarter + 1;
 
+            updateQuarter();
         }
 
         private void quarter_decrease1_Click(object sender, EventArgs e)
         {
+            scoreQuarter = scoreQuarter - 1;
 
+            updateQuarter();
         }
+
+        private void updateQuarter()
+        {
+            if (scoreQuarter <= 0)
+            {
+                scoreQuarter = 1;
+            }
+
+            if (scoreQuarter >= 5)
+            {
+                scoreQuarter = 5;
+            }
+
+            string scoreQuarterText = "NEVER";
+
+            switch (scoreQuarter)
+            {
+                case 1:
+                    scoreQuarterText = "1st";
+                    break;
+                case 2:
+                    scoreQuarterText = "2nd";
+                    break;
+                case 3:
+                    scoreQuarterText = "3rd";
+                    break;
+                case 4:
+                    scoreQuarterText = "4th";
+                    break;
+                case 5:
+                    scoreQuarterText = "OT";
+                    break;
+                default:
+                    scoreQuarterText = "ERROR?!?!?";
+                    break;
+            }
+
+            // OBS UPDATE
+            JObject testObject = new JObject();
+            testObject.Add("scene-name", "SETUP-SCOREBUG");
+            testObject.Add("source", "quarterText");
+            testObject.Add("text", scoreQuarterText);
+
+            _obs.SendRequest("SetTextGDIPlusProperties", testObject);
+
+            // FORM UPDATE
+            scoreQuarter_LBL.Text = scoreQuarterText;
+        }
+        #endregion
+
+        #endregion
         #endregion
 
         bool timeClockRunning = false;
@@ -1525,10 +1654,7 @@ namespace StreamTools_v2
             deck.SetKeyBitmap(12, bit12);
         }
 
-        private void updateExports()
-        {
 
-        }
     }
 
     public static class ISynchronizeInvokeExtensions
