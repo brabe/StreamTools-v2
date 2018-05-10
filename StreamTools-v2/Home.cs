@@ -1653,8 +1653,6 @@ namespace StreamTools_v2
             var bit12 = KeyBitmap.FromFile(@"CustomDeck\timeStart.png");
             deck.SetKeyBitmap(12, bit12);
         }
-
-
     }
 
     public static class ISynchronizeInvokeExtensions
