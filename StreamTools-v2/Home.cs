@@ -42,7 +42,7 @@ namespace StreamTools_v2
             _obs.RecordingStateChanged += WebSocket.onRecordingStateChange;
 
             // Setup Environment
-            Global.applicationSetup();
+            //Global.applicationSetup();
 
             // Refresh Music Playlist
             musicRefresh_BTN.PerformClick();
@@ -51,13 +51,28 @@ namespace StreamTools_v2
 
         private void home_FRM_Load(object sender, EventArgs e)
         {
-            elgatoStreamDeck(this);
+
+            try
+            {
+                elgatoStreamDeck(this);
+            }
+            catch
+            {
+                MessageBox.Show("Stream Deck Missing!");
+                Application.Exit();
+            }
+
+            try
+            {
+                connectOBS_Button.PerformClick();
+            }
+            catch
+            {
+                MessageBox.Show("OBS WebSocket Missing!");
+            }
 
             musicRefresh_BTN.PerformClick();
             startScoreboard();
-
-            connectOBS_Button.PerformClick();
-
             updateQuarter();
         }
 
@@ -69,33 +84,7 @@ namespace StreamTools_v2
 
         private void updateOBS_Click(object sender, EventArgs e)
         {
-            setGraphics();
-        }
-
-        // TEST TEST TES
-        private void setGraphics()
-        {
-            // OBS UPDATE
-            JObject testObject = new JObject();
-            testObject.Add("sourceName", "RightTeamGraphic");
-
-            JObject sourceObject = new JObject();
-            sourceObject.Add("file", Global.obsTeamExport + @"\1\RightGraphicGirls.png");
-
-            testObject.Add("sourceSettings", sourceObject);
-
-            _obs.SendRequest("SetSourceSettings", testObject);
-
-            // OBS UPDATE
-            JObject testObject2 = new JObject();
-            testObject2.Add("sourceName", "LeftTeamGraphic");
-
-            JObject sourceObject2 = new JObject();
-            sourceObject2.Add("file", Global.obsTeamExport + @"\1\LeftGraphicGirls.png");
-
-            testObject2.Add("sourceSettings", sourceObject2);
-
-            _obs.SendRequest("SetSourceSettings", testObject2);
+            OBS.Scoreboard.updateBackgroundGraphics(_obs);
         }
 
         public void connectOBS(object sender, EventArgs e)
@@ -411,6 +400,60 @@ namespace StreamTools_v2
         }
 
         private void elgato_SetTimeClock()
+        {
+            deck.ClearKeys();
+
+            var bit0 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
+            deck.SetKeyBitmap(0, bit0);
+
+            var bit1 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
+            deck.SetKeyBitmap(1, bit1);
+
+            var bit2 = KeyBitmap.FromFile(@"CustomDeck\timeColon.png");
+            deck.SetKeyBitmap(2, bit2);
+
+            var bit3 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
+            deck.SetKeyBitmap(3, bit3);
+
+            var bit4 = KeyBitmap.FromFile(@"CustomDeck\time0.png");
+            deck.SetKeyBitmap(4, bit4);
+
+            var bit5 = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
+            deck.SetKeyBitmap(5, bit5);
+
+            var bit6 = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
+            deck.SetKeyBitmap(6, bit6);
+
+            var bit7 = KeyBitmap.FromFile(@"CustomDeck\goBack.png");
+            deck.SetKeyBitmap(7, bit7);
+
+            var bit8 = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
+            deck.SetKeyBitmap(8, bit8);
+
+            var bit9 = KeyBitmap.FromFile(@"CustomDeck\timeIncrease.png");
+            deck.SetKeyBitmap(9, bit9);
+
+            var bit10 = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
+            deck.SetKeyBitmap(10, bit10);
+
+            var bit11 = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
+            deck.SetKeyBitmap(11, bit11);
+
+            var bit12 = KeyBitmap.FromFile(@"CustomDeck\timeStart.png");
+            deck.SetKeyBitmap(12, bit12);
+
+            var bit13 = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
+            deck.SetKeyBitmap(13, bit13);
+
+            var bit14 = KeyBitmap.FromFile(@"CustomDeck\timeDecrease.png");
+            deck.SetKeyBitmap(14, bit14);
+
+            updateElgato_TimeClock();
+
+            deckScreen = "timeClock";
+        }
+
+        private void elgato_SetTimeoutHome()
         {
             deck.ClearKeys();
 
@@ -912,6 +955,9 @@ namespace StreamTools_v2
                     scoreQuarter = Convert.ToInt32(row["score"].ToString());
                     scoreTimeMin = Convert.ToInt32(row["timeouts"].ToString());
                     scoreTimeSec = Convert.ToInt32(row["fouls"].ToString());
+
+                    updateQuarter();
+                    updateElgato_TimeClock();
                 }
             }
 
@@ -954,6 +1000,150 @@ namespace StreamTools_v2
         KeyBitmap time9 = KeyBitmap.FromFile(@"CustomDeck\time9.png");
         KeyBitmap period = KeyBitmap.FromFile(@"CustomDeck\timePeriod.png");
         KeyBitmap colon = KeyBitmap.FromFile(@"CustomDeck\timeColon.png");
+        #endregion
+
+        #region Time Clock Buttons
+
+        #region TIME
+        private void time_MinuteIncrease1_Click(object sender, EventArgs e)
+        {
+            timeClock_Timer.Stop();
+            scoreTimeMin = scoreTimeMin + 1;
+            updateElgato_TimeClock();
+            if (timeClockRunning == true)
+            {
+                timeClock_Timer.Start();
+            }
+        }
+
+        private void time_MinuteDecrease1_Click(object sender, EventArgs e)
+        {
+            if (scoreTimeMin == 0)
+            {
+                return;
+            }
+
+            timeClock_Timer.Stop();
+            scoreTimeMin = scoreTimeMin - 1;
+            updateElgato_TimeClock();
+            if (timeClockRunning == true)
+            {
+                timeClock_Timer.Start();
+            }
+        }
+
+        private void time_SecondIncrease1_Click(object sender, EventArgs e)
+        {
+            timeClock_Timer.Stop();
+            scoreTimeSec = scoreTimeSec + 1;
+            if (scoreTimeSec > 59)
+            {
+                scoreTimeMin = scoreTimeMin + 1;
+                scoreTimeSec = scoreTimeSec - 60;
+            }
+
+
+            updateElgato_TimeClock();
+            if (timeClockRunning == true)
+            {
+                timeClock_Timer.Start();
+            }
+        }
+
+        private void time_SecondDecrease1_Click(object sender, EventArgs e)
+        {
+            timeClock_Timer.Stop();
+            scoreTimeSec = scoreTimeSec - 1;
+
+            if (scoreTimeSec < 0)
+            {
+                scoreTimeSec = 59;
+                scoreTimeMin = scoreTimeMin - 1;
+                if (scoreTimeMin < 0)
+                {
+                    scoreTimeMin = 0;
+                    scoreTimeSec = 0;
+                }
+            }
+
+            updateElgato_TimeClock();
+            if (timeClockRunning == true)
+            {
+                timeClock_Timer.Start();
+            }
+        }
+        #endregion
+
+        #region QUARTERS
+        private void quarter_Increase1_Click(object sender, EventArgs e)
+        {
+            scoreQuarter = scoreQuarter + 1;
+
+            updateQuarter();
+        }
+
+        private void quarter_decrease1_Click(object sender, EventArgs e)
+        {
+            scoreQuarter = scoreQuarter - 1;
+
+            updateQuarter();
+        }
+
+        private void updateQuarter()
+        {
+            if (scoreQuarter <= 0)
+            {
+                scoreQuarter = 1;
+            }
+
+            if (scoreQuarter >= 5)
+            {
+                scoreQuarter = 5;
+            }
+
+            string scoreQuarterText = "NEVER";
+
+            switch (scoreQuarter)
+            {
+                case 1:
+                    scoreQuarterText = "1st";
+                    break;
+                case 2:
+                    scoreQuarterText = "2nd";
+                    break;
+                case 3:
+                    scoreQuarterText = "3rd";
+                    break;
+                case 4:
+                    scoreQuarterText = "4th";
+                    break;
+                case 5:
+                    scoreQuarterText = "OT";
+                    break;
+                default:
+                    scoreQuarterText = "ERROR?!?!?";
+                    break;
+            }
+
+            OBS.Scoreboard.updateQuarter(scoreQuarterText, _obs);
+
+            // FORM UPDATE
+            scoreQuarter_LBL.Text = scoreQuarterText;
+
+            Global.con.Open();
+
+            string sqlUpdate = "" +
+                "UPDATE currentGame " +
+                "SET score='" + scoreQuarter.ToString() + "' " +
+                "WHERE team = 'game'";
+
+            SQLiteCommand sqlCMD = new SQLiteCommand(sqlUpdate, Global.con);
+            sqlCMD.ExecuteNonQuery();
+
+            Global.con.Close();
+        }
+        #endregion
+
         #endregion
 
         private void timeClock_Timer_Tick(object sender, EventArgs e)
@@ -1321,27 +1511,27 @@ namespace StreamTools_v2
             {
                 this.InvokeEx(home_FRM => home_FRM.timeClock_LBL.Text = scoreTimeSec.ToString() + "." + scoreTimeMil.ToString());
 
-                // OBS UPDATE
-                JObject testObject = new JObject();
-                testObject.Add("scene-name", "SETUP-SCOREBUG");
-                testObject.Add("source", "timeClockText");
-                testObject.Add("text", scoreTimeSec.ToString() + "." + scoreTimeMil.ToString());
-
-                _obs.SendRequest("SetTextGDIPlusProperties", testObject);
+                OBS.Scoreboard.updateTimeClock(scoreTimeSec.ToString() + "." + scoreTimeMil.ToString(), _obs);
             }
 
             if (scoreTimeMin != 0)
             {
                 this.InvokeEx(home_FRM => home_FRM.timeClock_LBL.Text = scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString("00"));
 
-                // OBS UPDATE
-                JObject testObject = new JObject();
-                testObject.Add("scene-name", "SETUP-SCOREBUG");
-                testObject.Add("source", "timeClockText");
-                testObject.Add("text", scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString("00"));
-
-                _obs.SendRequest("SetTextGDIPlusProperties", testObject);
+                OBS.Scoreboard.updateTimeClock(scoreTimeMin.ToString() + ":" + scoreTimeSec.ToString("00"), _obs);
             }
+
+            Global.con.Open();
+
+            string sqlUpdate = "" +
+                "UPDATE currentGame " +
+                "SET timeouts='" + scoreTimeMin.ToString() + "', fouls='" + scoreTimeSec.ToString() + "' " +
+                "WHERE team = 'game'";
+
+            SQLiteCommand sqlCMD = new SQLiteCommand(sqlUpdate, Global.con);
+            sqlCMD.ExecuteNonQuery();
+
+            Global.con.Close();
         }
         #endregion
 
@@ -1350,7 +1540,14 @@ namespace StreamTools_v2
         private void left_TimeoutIncrease_Click(object sender, EventArgs e)
         {
             leftTimeout = leftTimeout + 1;
+            if (leftTimeout > 5)
+            {
+                leftTimeout = 5;
+            }
+
             leftTimeouts_LBL.Text = leftTimeout.ToString();
+
+            OBS.Scoreboard.updateLeftTimeout(leftTimeout, _obs);
         }
 
         private void left_TimeoutDecrease_Click(object sender, EventArgs e)
@@ -1363,6 +1560,8 @@ namespace StreamTools_v2
             }
 
             leftTimeouts_LBL.Text = leftTimeout.ToString();
+
+            OBS.Scoreboard.updateLeftTimeout(leftTimeout, _obs);
         }
 
         private void left_ScoreIncrease3_Click(object sender, EventArgs e)
@@ -1425,7 +1624,14 @@ namespace StreamTools_v2
         private void right_TimeoutIncrease_Click(object sender, EventArgs e)
         {
             rightTimeout = rightTimeout + 1;
+
+            if (rightTimeout > 5)
+            {
+                rightTimeout = 5;
+            }
+
             rightTimeouts_LBL.Text = rightTimeout.ToString();
+            OBS.Scoreboard.updateRightTimeout(rightTimeout, _obs);
         }
 
         private void right_TimeoutDecrease_Click(object sender, EventArgs e)
@@ -1438,6 +1644,7 @@ namespace StreamTools_v2
             }
 
             rightTimeouts_LBL.Text = rightTimeout.ToString();
+            OBS.Scoreboard.updateRightTimeout(rightTimeout, _obs);
         }
 
         private void right_ScoreIncrease3_Click(object sender, EventArgs e)
@@ -1498,143 +1705,7 @@ namespace StreamTools_v2
         }
         #endregion
 
-        #region Time Clock 
-
-        #region TIME
-        private void time_MinuteIncrease1_Click(object sender, EventArgs e)
-        {
-            timeClock_Timer.Stop();
-            scoreTimeMin = scoreTimeMin + 1;
-            updateElgato_TimeClock();
-            if (timeClockRunning == true)
-            {
-                timeClock_Timer.Start();
-            }
-        }
-
-        private void time_MinuteDecrease1_Click(object sender, EventArgs e)
-        {
-            if (scoreTimeMin == 0)
-            {
-                return;
-            }
-
-            timeClock_Timer.Stop();
-            scoreTimeMin = scoreTimeMin - 1;
-            updateElgato_TimeClock();
-            if (timeClockRunning == true)
-            {
-                timeClock_Timer.Start();
-            }
-        }
-
-        private void time_SecondIncrease1_Click(object sender, EventArgs e)
-        {
-            timeClock_Timer.Stop();
-            scoreTimeSec = scoreTimeSec + 1;
-            if (scoreTimeSec > 59)
-            {
-                scoreTimeMin = scoreTimeMin + 1;
-                scoreTimeSec = scoreTimeSec - 60;
-            }
-
-
-            updateElgato_TimeClock();
-            if (timeClockRunning == true)
-            {
-                timeClock_Timer.Start();
-            }
-        }
-
-        private void time_SecondDecrease1_Click(object sender, EventArgs e)
-        {
-            timeClock_Timer.Stop();
-            scoreTimeSec = scoreTimeSec - 1;
-
-            if (scoreTimeSec < 0)
-            {
-                scoreTimeSec = 59;
-                scoreTimeMin = scoreTimeMin - 1;
-                if (scoreTimeMin < 0)
-                {
-                    scoreTimeMin = 0;
-                    scoreTimeSec = 0;
-                }
-            }
-
-            updateElgato_TimeClock();
-            if (timeClockRunning == true)
-            {
-                timeClock_Timer.Start();
-            }
-        }
-        #endregion
-
-        #region QUARTERS
-        private void quarter_Increase1_Click(object sender, EventArgs e)
-        {
-            scoreQuarter = scoreQuarter + 1;
-
-            updateQuarter();
-        }
-
-        private void quarter_decrease1_Click(object sender, EventArgs e)
-        {
-            scoreQuarter = scoreQuarter - 1;
-
-            updateQuarter();
-        }
-
-        private void updateQuarter()
-        {
-            if (scoreQuarter <= 0)
-            {
-                scoreQuarter = 1;
-            }
-
-            if (scoreQuarter >= 5)
-            {
-                scoreQuarter = 5;
-            }
-
-            string scoreQuarterText = "NEVER";
-
-            switch (scoreQuarter)
-            {
-                case 1:
-                    scoreQuarterText = "1st";
-                    break;
-                case 2:
-                    scoreQuarterText = "2nd";
-                    break;
-                case 3:
-                    scoreQuarterText = "3rd";
-                    break;
-                case 4:
-                    scoreQuarterText = "4th";
-                    break;
-                case 5:
-                    scoreQuarterText = "OT";
-                    break;
-                default:
-                    scoreQuarterText = "ERROR?!?!?";
-                    break;
-            }
-
-            // OBS UPDATE
-            JObject testObject = new JObject();
-            testObject.Add("scene-name", "SETUP-SCOREBUG");
-            testObject.Add("source", "quarterText");
-            testObject.Add("text", scoreQuarterText);
-
-            _obs.SendRequest("SetTextGDIPlusProperties", testObject);
-
-            // FORM UPDATE
-            scoreQuarter_LBL.Text = scoreQuarterText;
-        }
-        #endregion
-
-        #endregion
+        
         #endregion
 
         bool timeClockRunning = false;
@@ -1650,8 +1721,12 @@ namespace StreamTools_v2
             timeClockRunning = false;
             timeClock_Timer.Stop();
 
-            var bit12 = KeyBitmap.FromFile(@"CustomDeck\timeStart.png");
-            deck.SetKeyBitmap(12, bit12);
+            if (deckScreen == "timeClock")
+            {
+                var bit12 = KeyBitmap.FromFile(@"CustomDeck\timeStart.png");
+                deck.SetKeyBitmap(12, bit12);
+            }
+            
         }
     }
 

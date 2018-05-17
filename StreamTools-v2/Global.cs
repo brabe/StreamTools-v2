@@ -18,11 +18,9 @@ namespace StreamTools_v2
         // Application Working Directory
         public static string workingDir = Environment.CurrentDirectory;
 
-        public static string obsMainExport = workingDir + @"\OBS_Exports";
-        public static string obsTimerExport = obsMainExport + @"\Timer";
-        public static string obsScoreExport = obsMainExport + @"\Score";
-        public static string obsTeamExport = obsMainExport + @"\TeamInfo";
-        public static string musicLocation = workingDir + @"\Music";
+        public static string obsMainExport = workingDir + @"\Exports";
+        public static string obsTeamExport = obsMainExport + @"\TeamGraphics";
+        public static string musicLocation = obsMainExport + @"\Music";
 
         // Application Structure
         public static void applicationSetup()
@@ -32,24 +30,6 @@ namespace StreamTools_v2
             try
             {
                 Directory.CreateDirectory(obsMainExport);
-            }
-            catch { }
-
-            try
-            {
-                Directory.CreateDirectory(obsTimerExport);
-            }
-            catch { }
-
-            try
-            {
-                Directory.CreateDirectory(obsScoreExport);
-            }
-            catch { }
-
-            try
-            {
-                Directory.CreateDirectory(obsTeamExport);
             }
             catch { }
 

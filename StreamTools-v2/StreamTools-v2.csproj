@@ -112,7 +112,9 @@
     <Compile Include="Home.Designer.cs">
       <DependentUpon>Home.cs</DependentUpon>
     </Compile>
-    <Compile Include="OBS\Functions.cs" />
+    <Compile Include="OBS\SetSourceSettings.cs" />
+    <Compile Include="OBS\Scoreboard.cs" />
+    <Compile Include="OBS\SetVisible.cs" />
     <Compile Include="OBS\WebSocket.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -314,7 +316,64 @@
     <Content Include="CustomDeck\timeStop.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Exports\Music\Ash OConnor - Vibe [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Axollo - Burn It.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\DEAF KEV - Invincible [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Fareoh - Under Water.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Jim Yosef &amp; Alex Skrindo - Passion [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Michael White - Got You [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\NIVIRO - Flares [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Raven &amp; Kreyn - Bubble.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\RetroVision &amp; Domastic - SICC %28Radio Edit%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\RetroVision - Puzzle VIP [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\SirensCeol - Nostalgia [NCS Release].mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\Music\Waysons - Daydream.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\Backgrounds\TimeClock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\TimeoutGraphics\Timeout1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\TimeoutGraphics\Timeout2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\TimeoutGraphics\Timeout3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\TimeoutGraphics\Timeout4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Exports\ScoreboardBaseGraphics\TimeoutGraphics\Timeout5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="fodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exports\TeamGraphics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net46\System.Data.SQLite.Core.targets')" />
